@@ -45,11 +45,11 @@ post '/add' do
 	t.otsikko =  params['otsikko']
 	t.paikka =  params['paikka']
  	t.kaupunki =  params['kaupunki']
- 	t.kuvaus =  params['kuvaus']
+   t.kuvaus =  params['kuvaus']
    t.aika = Tilaisuus.generoi_aika(params['aika'])
 	t.save
 
-  "event added <a href=\"/\">back</a>"
+  "tilaisuus lisätty <a href=\"/\">back</a>"
 end
 
 get '/list' do
