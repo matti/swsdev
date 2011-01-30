@@ -13,6 +13,6 @@ class Tilaisuus
   	property :paikka,             String
 
 	def to_s
-		"#{otsikko}  in  #{paikka}"
+		"#{otsikko}  #{paikka} "
 	end
 end

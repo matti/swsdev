@@ -9,9 +9,14 @@
     <% @lista.each do |tilaisuus| %>
 
       <h4> <%="#{tilaisuus.otsikko}"%> </h4>
-      	<p> <%="#{tilaisuus.kaupunki}"%> </p>
+
+			<p> <%="#{tilaisuus.paikka}"%> <%="#{tilaisuus.kaupunki}"%> </p>
+			<p> <%="#{tilaisuus.kuvaus}"%> </p>
 
     <% end %>
+
+    <p><a href="/">takaisin</a></p>
+
   </ul>
 
 </body>

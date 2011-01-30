@@ -17,7 +17,10 @@ configure do  # suoritetaan aina ensin
   db_file = File.dirname(File.expand_path(__FILE__)) + "/db.sqlite"
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite://' + db_file)
-  DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
+  #DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
+  DataMapper.auto_migrate!
+
+
 end
 
 get '/' do
@@ -32,12 +35,18 @@ get '/' do
 end
 
 get '/add' do
+	erb :add
+end
+
+post '/add' do
 	t = Tilaisuus.new
-	t.otsikko = "bbb"
- 	t.kaupunki = "Helsinki"
+	t.otsikko =  params['otsikko']
+	t.paikka =  params['paikka']
+ 	t.kaupunki =  params['kaupunki']
+ 	t.kuvaus =  params['kuvaus']
 	t.save
 
-  "#{t.otsikko} added"
+  "#{t.otsikko} #{t.kaupunki} added <a href=\"/\">back</a>"
 end
 
 get '/list' do
