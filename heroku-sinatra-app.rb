@@ -2,14 +2,15 @@ require 'rubygems'
 require 'sinatra'
 require 'dm-core'
 require 'dm-migrations'
-require 'dm-postgres-adapter'
+#require 'dm-postgres-adapter'
 require 'erb'
+require './tilaisuudet.rb'
 
 class Numero
   include DataMapper::Resource    # Tuodaan datamapperin toiminnallisuus PORO:n
 
-  property :id, Serial, :key => true
-  property :amount, Integer, :default => 0
+  property :id, 			Serial, :key => true
+  property :amount, 		Integer, :default => 0
 end
 
 configure do  # suoritetaan aina ensin
@@ -19,17 +20,24 @@ configure do  # suoritetaan aina ensin
   DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
 end
 
-
-# Quick test
 get '/' do
   @nro = Numero.first(:id => 1)
 
   @nro = Numero.new unless @nro  # jos ei löytynyt id:llä "1", niin luo uusi
 
   @nro.amount = @nro.amount + 1   # kasvata normaalisti kenttää
-  @nro.save                          # persistoi
+  @nro.save                       # persistoi
 
   erb :index
+end
+
+get '/add' do
+	t = Tilaisuus.new
+	t.otsikko = "aaa"
+ 	t.kaupunki = "Helsinki"
+	t.save
+
+  "#{t.otsikko} added"
 end
 
 get '/env' do
