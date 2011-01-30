@@ -17,14 +17,13 @@ configure do  # suoritetaan aina ensin
   db_file = File.dirname(File.expand_path(__FILE__)) + "/db.sqlite"
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite://' + db_file)
-  DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
-  
+  #DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
+  DataMapper.auto_migrate!
 end
 
-get /drop do
-	DataMapper.auto_migrate!
-	"data dropped <a href=\"/\">back</a>"
-end
+
+	
+
 
 get '/' do
   @nro = Numero.first(:id => 1)
