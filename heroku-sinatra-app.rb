@@ -33,11 +33,20 @@ end
 
 get '/add' do
 	t = Tilaisuus.new
-	t.otsikko = "aaa"
+	t.otsikko = "bbb"
  	t.kaupunki = "Helsinki"
 	t.save
 
   "#{t.otsikko} added"
+end
+
+get '/list' do
+   @lista = []
+	Tilaisuus.all().each do |t|
+ 		@lista << t
+	end
+
+	erb :list
 end
 
 get '/env' do

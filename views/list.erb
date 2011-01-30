@@ -1,0 +1,18 @@
+<html>
+<head>
+</head>
+
+<body>
+  <h2>Tilaisuudet</h2>
+
+  <ul>
+    <% @lista.each do |tilaisuus| %>
+
+      <h4> <%="#{tilaisuus.otsikko}"%> </h4>
+      	<p> <%="#{tilaisuus.kaupunki}"%> </p>
+
+    <% end %>
+  </ul>
+
+</body>
+</html>
