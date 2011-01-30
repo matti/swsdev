@@ -18,9 +18,12 @@ configure do  # suoritetaan aina ensin
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite://' + db_file)
   DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
-  #DataMapper.auto_migrate!
+  
+end
 
-
+get /drop do
+	DataMapper.auto_migrate!
+	"data dropped <a href=\"/\">back</a>"
 end
 
 get '/' do
