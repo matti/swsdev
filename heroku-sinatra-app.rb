@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'dm-core'
 require 'dm-migrations'
-#require 'dm-postgres-adapter'
+require 'dm-postgres-adapter'
 require 'erb'
 
 class Numero
