@@ -18,7 +18,11 @@ configure do  # suoritetaan aina ensin
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite://' + db_file)
   DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
-  #DataMapper.auto_migrate!
+end
+
+get '/drop' do
+  DataMapper.auto_migrate!
+  "all dropped <a href=\"/\">back</a>"
 end
 
 get '/' do
@@ -42,9 +46,10 @@ post '/add' do
 	t.paikka =  params['paikka']
  	t.kaupunki =  params['kaupunki']
  	t.kuvaus =  params['kuvaus']
+   t.aika = Tilaisuus.generoi_aika("28 2 2011 18 00")
 	t.save
 
-  "#{t.otsikko} #{t.kaupunki} added <a href=\"/\">back</a>"
+  "event added <a href=\"/\">back</a>"
 end
 
 get '/list' do
