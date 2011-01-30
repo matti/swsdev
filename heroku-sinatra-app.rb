@@ -22,12 +22,12 @@ end
 
 # Quick test
 get '/' do
-  @Numero = Numero.first(:id => 1)
+  @nro = Numero.first(:id => 1)
 
-  @Numero = Numero.new unless @Numero  # jos ei löytynyt id:llä "1", niin luo uusi
+  @nro = Numero.new unless @nro  # jos ei löytynyt id:llä "1", niin luo uusi
 
-  @Numero.amount = @Numero.amount + 1   # kasvata normaalisti kenttää
-  @Numero.save                          # persistoi
+  @nro.amount = @nro.amount + 1   # kasvata normaalisti kenttää
+  @nro.save                          # persistoi
 
   erb :index
 end
