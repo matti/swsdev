@@ -13,54 +13,62 @@ class Numero
   property :amount, 		Integer, :default => 0
 end
 
-configure do  # suoritetaan aina ensin
-  db_file = File.dirname(File.expand_path(__FILE__)) + "/db.sqlite"
 
-  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite://' + db_file)
-  DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
-end
+class Sws < Sinatra::Base
+  
+  configure do  # suoritetaan aina ensin
+    db_file = File.dirname(File.expand_path(__FILE__)) + "/db.sqlite"
 
-get '/drop' do
-  DataMapper.auto_migrate!
-  "all dropped <a href=\"/\">back</a>"
-end
+    DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite://' + db_file)
+    DataMapper.auto_upgrade!  # Luo tietokannan, taulut ja päivittää kentät
+  end
 
-get '/' do
-  @nro = Numero.first(:id => 1)
+  get '/drop' do
+    DataMapper.auto_migrate!
+    "all dropped <a href=\"/\">back</a>"
+  end
 
-  @nro = Numero.new unless @nro  # jos ei löytynyt id:llä "1", niin luo uusi
+  get '/' do
+    @nro = Numero.first(:id => 1)
 
-  @nro.amount = @nro.amount + 1   # kasvata normaalisti kenttää
-  @nro.save                       # persistoi
+    @nro = Numero.new unless @nro  # jos ei löytynyt id:llä "1", niin luo uusi
 
-  erb :index
-end
+    @nro.amount = @nro.amount + 1   # kasvata normaalisti kenttää
+    @nro.save                       # persistoi
 
-get '/add' do
-	erb :add
-end
+    erb :index
+  end
 
-post '/add' do
-	t = Tilaisuus.new
-	t.otsikko =  params['otsikko']
-	t.paikka =  params['paikka']
- 	t.kaupunki =  params['kaupunki']
-   t.kuvaus =  params['kuvaus']
-   t.aika = Tilaisuus.generoi_aika(params['aika'])
-	t.save
+  get '/add' do
+  	erb :add
+  end
 
-  "tilaisuus lisätty <a href=\"/\">back</a>"
-end
+  post '/add' do
+  	t = Tilaisuus.new
+  	t.otsikko =  params['otsikko']
+  	t.paikka =  params['paikka']
+   	t.kaupunki =  params['kaupunki']
+     t.kuvaus =  params['kuvaus']
+     t.aika = Tilaisuus.generoi_aika(params['aika'])
+  	t.save
 
-get '/list' do
-   @lista = []
-	Tilaisuus.all().each do |t|
- 		@lista << t
-	end
+    "tilaisuus lisätty <a href=\"/\">back</a>"
+  end
 
-	erb :list
-end
+  get '/list' do
+     @lista = []
+  	Tilaisuus.all().each do |t|
+   		@lista << t
+  	end
 
-get '/env' do
-  ENV.inspect
+  	erb :list
+  end
+
+  get '/env' do
+    ENV.inspect
+  end
+  
+  
+  # start the server if ruby file executed directly
+  run! if app_file == $0
 end
